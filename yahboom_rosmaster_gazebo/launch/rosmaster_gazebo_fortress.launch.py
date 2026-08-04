@@ -422,7 +422,7 @@ def generate_launch_description():
         parameters=[{
             "use_sim_time": LaunchConfiguration("use_sim_time"),
             "publish_rate": 50.0,
-            "odom_frame_id": "calc_odom",
+            "odom_frame_id": "odom",
             "base_frame_id": "calc_base",
         }],
     )

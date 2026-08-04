@@ -34,7 +34,7 @@ class CmdVelOdometry(Node):
     def __init__(self):
         super().__init__("cmd_vel_odometry")
 
-        self.declare_parameter("odom_frame_id", "calc_odom")
+        self.declare_parameter("odom_frame_id", "odom")
         self.declare_parameter("base_frame_id", "calc_base")
         self.declare_parameter("publish_rate", 50.0)
         self.declare_parameter("timeout", 0.5)
