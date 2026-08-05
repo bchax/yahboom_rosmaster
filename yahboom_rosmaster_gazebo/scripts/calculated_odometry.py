@@ -57,7 +57,8 @@ class CmdVelOdometry(Node):
         self.pose_covariance = diagonal_covariance(POSE_COVARIANCE_DIAGONAL)
         self.twist_covariance = diagonal_covariance(TWIST_COVARIANCE_DIAGONAL)
 
-        self.odom_publisher = self.create_publisher(Odometry, "/calc_odom", 10)
+        self.odom_topic = "/calc_odom"
+        self.odom_publisher = self.create_publisher(Odometry, self.odom_topic, 10)
         self.tf_broadcaster = TransformBroadcaster(self)
 
         # Subscribe to pure /cmd_vel before errors are injected
@@ -69,8 +70,13 @@ class CmdVelOdometry(Node):
 
         self.timer = self.create_timer(1.0 / publish_rate, self.timer_callback)
 
+        # Name the topic and the frames separately. These used to coincide, so
+        # printing the frame read like a topic; now the frame is odom while the
+        # topic is still /calc_odom, and echoing /odom gets you wheel odometry
+        # instead of this node's output.
         self.get_logger().info(
-            f"Publishing pure cmd_vel odometry to /{self.odom_frame_id} "
+            f"Publishing pure cmd_vel odometry on {self.odom_topic} "
+            f"as {self.odom_frame_id} -> {self.base_frame_id} "
             f"with {self.timeout}s watchdog")
 
     def cmd_vel_callback(self, msg: Twist):
