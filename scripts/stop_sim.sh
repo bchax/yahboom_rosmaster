@@ -31,6 +31,12 @@ PATTERNS=(
   "ros_gz_image/image_bridge"
   "cmd_vel_watchdog.py"
   "wheel_state_odometry.py"
+  # These two outlive their launch on macOS and keep broadcasting TF into the
+  # next session, so a Fortress run left running before a Classic run puts a
+  # ghost odom->calc_base in the tree that still responds to teleop. Nothing
+  # logs it, so it reads as a simulator fault rather than a stale process.
+  "calculated_odometry.py"
+  "ground_truth_tf.py"
   "controller_manager spawner"
   "rviz2"
 )
